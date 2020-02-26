@@ -75,6 +75,7 @@
         <main class="py-4">
             <div class="container">
                 <div class="row justify-content-center">
+                    @if(Auth::check())
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-header">Menu</div>
@@ -96,6 +97,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     <div class="col-md-8">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
@@ -114,7 +116,8 @@
                         @yield('content')
                     </div>
                 </div>
-        </main>
+
+            </main>
     </div>
 </body>
 </html>

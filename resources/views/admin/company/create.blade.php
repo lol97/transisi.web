@@ -12,7 +12,7 @@
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" class="form-control" required name="email">
+                <input type="email" class="form-control" required name="email">
             </div>
             <div class="form-group">
                 <label for="email">Logo</label>

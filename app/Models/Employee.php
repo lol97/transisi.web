@@ -9,8 +9,8 @@ class Employee extends Model
     protected $table = 'employees';
     protected $guarded = [];
 
-    public function company()
+    public function companyR()
     {
-        return $this->belongsTo('App\Models\Company', 'id', 'company');
+        return $this->belongsTo('App\Models\Company', 'company', 'id');
     }
 }

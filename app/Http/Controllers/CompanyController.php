@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Employee;
 use App\Models\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +43,7 @@ class CompanyController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required|unique:companies',
+            'email' => 'required|unique:companies|email',
             'website' => 'required|string',
             'logo' => 'required|image|mimes:jpeg,jpg,png,svg,bmp,webp|max:100|dimensions:max_width=100,max_height=100',
         ]);
@@ -62,12 +63,12 @@ class CompanyController extends Controller
             DB::commit();
             return redirect()->route('company.index');
         } catch (Exception $e) {
+            DB::rollBack();
             try {
                 $logo->delete();
             } catch (Exception $e) {
                 Log::critical($e);
             }
-
             return back()->withErrors('Terjadi kesalahan saat menyimpan data silahkan coba lagi');
         }
 
@@ -83,6 +84,7 @@ class CompanyController extends Controller
     {
         return view('admin.company.show')->with([
             'company' => $company,
+            'employees' => Employee::where('company', $company->id)->paginate(5),
         ]);
     }
 
@@ -111,7 +113,7 @@ class CompanyController extends Controller
 
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required',
+            'email' => 'required|email',
             'website' => 'required|string',
         ]);
         DB::beginTransaction();
@@ -125,7 +127,7 @@ class CompanyController extends Controller
         }
         if ($request->email !== $company->email) {
             $request->validate([
-                'email' => '|unique:companies'
+                'email' => '|unique:companies|email'
             ]);
         }
 
@@ -141,6 +143,7 @@ class CompanyController extends Controller
             DB::commit();
             return redirect()->route('company.index');
         } catch (Exception $e) {
+            DB::rollBack();
             try {
                 $logo->delete();
             } catch (Exception $e) {
