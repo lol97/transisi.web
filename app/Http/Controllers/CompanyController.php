@@ -50,7 +50,7 @@ class CompanyController extends Controller
 
         DB::beginTransaction();
         try {
-            $logo = Upload::store($request->file('logo'), 'storage/app/company');
+            $logo = Upload::store($request->file('logo'), 'company/');
             $company = Company::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -123,7 +123,7 @@ class CompanyController extends Controller
             $request->validate([
                 'logo' => 'required|image|mimes:jpeg,jpg,png,svg,bmp,webp|max:100|dimensions:max_width=100,max_height=100',
             ]);
-            $logo = Upload::store($request->file('logo'), 'storage/app/company');
+            $logo = Upload::store($request->file('logo'), 'company/');
         }
         if ($request->email !== $company->email) {
             $request->validate([

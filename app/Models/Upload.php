@@ -57,15 +57,7 @@ class Upload extends Model
         // Modify filename
         $extension = $file->getClientOriginalExtension();
         $filename = uniqid(date('YmdHis') . '_', true);
-        $directory = 'public/';
-
-        if ($dir !== null) {
-            $directory .= $dir;
-        }
-
-        if ($user === null) {
-            $user = auth()->user();
-        }
+        $directory = $dir;
 
         // New instance for database resource
         $instance = new static (
@@ -75,8 +67,8 @@ class Upload extends Model
                 'extension'        => $extension,
                 'size'             => $file->getSize(),
                 'mime'             => $file->getMimeType(),
-                'upload_by'        => $user->id,
-                'dir'              => $dir === null ? '/' : '/' . $dir,
+                'upload_by'        => auth()->user()->id,
+                'dir'              => $dir === null ? '/' : 'app/' . $dir,
             ]
         );
 
@@ -100,8 +92,7 @@ class Upload extends Model
         if (Storage::exists('public' . $path)) {
             return Storage::url($path);
         }
-
-        return Storage::url($this->dir . '/' . $this->file_name);
+        return Storage::url($this->dir . '/' . $this->file_name. '.' . $this->extension);
     }
 
     public function getDownloadPathAttribute()
@@ -131,17 +122,5 @@ class Upload extends Model
     public function uploader()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * @param \App\Models\User $user
-     * @return string
-     */
-    public static function getUploadDir(User $user)
-    {
-        $name = strtolower(preg_replace('/[^a-zA-Z0-9]+/', '', $user->name));
-        $words = str_pad(substr($name, 0, 3), 3, 'z');
-
-        return $words[0] . '/' . $words[1] . '/' . $words[2] . '/' . substr($name, 0, 10) . $user->id;
     }
 }
