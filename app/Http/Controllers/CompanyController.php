@@ -165,7 +165,7 @@ class CompanyController extends Controller
         try{
             $company->delete();
         } catch (\Exception $e) {
-            return back()->withErrors('Terjadi kesalahan saat menghapus data silahkan coba lagi');
+            return back()->withErrors('Terjadi kesalahan saat menghapus data, silahkan hapus terlebih dahulu pegawai yang ada');
         }
 
         return redirect()->route('company.index')->with('success', 'success hapus data');

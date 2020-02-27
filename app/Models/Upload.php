@@ -68,7 +68,7 @@ class Upload extends Model
                 'size'             => $file->getSize(),
                 'mime'             => $file->getMimeType(),
                 'upload_by'        => auth()->user()->id,
-                'dir'              => $dir === null ? '/' : 'app/' . $dir,
+                'dir'              => $dir === null ? '/' : '/' . $dir,
             ]
         );
 
@@ -88,11 +88,11 @@ class Upload extends Model
      */
     public function getUrlAttribute()
     {
-        $path = $this->dir . '/' . $this->file_name . '.' . $this->extension;
-        if (Storage::exists('public' . $path)) {
-            return Storage::url($path);
-        }
-        return Storage::url($this->dir . '/' . $this->file_name. '.' . $this->extension);
+        $path = $this->file_name . '.' . $this->extension;
+        // if (Storage::exists('public' . $path)) {
+        //     return Storage::url($path);
+        // }
+        return route('file_getter', $path);
     }
 
     public function getDownloadPathAttribute()
