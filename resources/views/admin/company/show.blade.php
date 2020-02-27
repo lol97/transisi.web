@@ -2,19 +2,38 @@
 
 @section('content')
 <div  class="card">
-    <div class="card-header">{{ $company->name }}</div>
-    <div card-body>
-        <img src="{{ $company->logoImage->url }}" alt="">
-        <h3>{{ $company->email }}</h3>
-        <h3>{{ $company->website }}</h3>
+    <div class="card-header"><h2>{{ $company->name }}</h2></div>
+    <div class="card-body row">
+        <div class="col-sm-4 fill">
+            <img src="{{ $company->logoImage->url }}" alt="">
+        </div>
+        <div class="col-sm-8">
+            <table class="table table-responsive">
+                <tr>
+                    <td>Nama Perusahaan </td>
+                    <td>{{ $company->name }}</td>
+                </tr>
+                <tr>
+                    <td>Email Perusahaan </td>
+                    <td>{{ $company->email }}</td>
+                </tr>
+                <tr>
+                    <td>Website Perusahaan </td>
+                    <td><a href="{{ $company->website }}">{{ $company->website }}</a></td>
+                </tr>
+            </table>
+            <a href="{{ route('company.edit', $company) }}" class="btn btn-warning">Ubah Data</a>
+        </div>
     </div>
+</div>
+<div class="card mt-4">
+    <div class="card-header">list pegawai</div>
     <div class="card-body">
         <table class="table table-responsive">
             <thead>
                 <th>No</th>
                 <th>Nama</th>
                 <th>Email</th>
-                <th>Perusahaan</th>
                 <th>Aksi</th>
             </thead>
             <tbody>
@@ -23,7 +42,6 @@
                         <td>{{ $loop->index+1 }}</td>
                         <td>{{ $employee->name }}</td>
                         <td>{{ $employee->email }}</td>
-                        <td>{{ $employee->companyR->name }}</td>
                         <td>
                             <form action="{{ route('employee.destroy', $employee) }}" id="form_destroy_{{ $employee }}" method="POST">
                                 @method('delete')

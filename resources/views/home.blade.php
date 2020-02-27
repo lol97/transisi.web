@@ -2,21 +2,28 @@
 
 @section('content')
 
-<div class="col-md-8">
+<div class="col-md-12">
     <div class="card">
         <div class="card-header">Dashboard</div>
 
-        <div class="card-body">
+        <div class="card-body row">
             @if (session('status'))
                 <div class="alert alert-success" role="alert">
                     {{ session('status') }}
                 </div>
             @endif
-            <h3>TOTAL PERUSAHAAN</h3>
-            <h4>{{ $totals_companies }}</h4>
-
-            <h3>TOTAL KARYAWAN</h3>
-            <h4>{{ $totals_employees }}</h4>
+            <div class="card col-sm-6">
+                <div class="card-body">
+                    <div class="card-title"><h3>TOTAL PERUSAHAAN</h3></div>
+                    <h2>{{ $totals_companies }}</h2>
+                </div>
+            </div>
+            <div class="card col-sm-6">
+                <div class="card-body">
+                    <div class="card-title"><h3>TOTAL KARYAWAN</h3></div>
+                    <h2>{{ $totals_employees }}</h2>
+                </div>
+            </div>
         </div>
     </div>
 </div>

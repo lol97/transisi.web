@@ -18,6 +18,19 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .fill {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden
+        }
+        .fill img {
+            flex-shrink: 0;
+            min-width: 100%;
+            min-height: 100%
+        }
+    </style>
 </head>
 <body>
     <div id="app">
